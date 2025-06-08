@@ -1,349 +1,168 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FanZone</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <title>Generator komentarzy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    select, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 30px;
+    }
+    li {
+      background-color: #fff;
+      margin: 8px auto;
+      padding: 15px 20px;
+      border-radius: 6px;
+      max-width: 600px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 font-sans">
-  <div class="max-w-3xl mx-auto p-6">
-    <h1 class="text-3xl font-bold text-center mb-8 text-purple-700">FanZone</h1>
+<body>
 
-    <!-- Formularz dodawania singla -->
-    <div class="bg-white shadow-md rounded-xl p-4 mb-6">
-      <h2 class="text-lg font-semibold mb-2">Dodaj nowy singiel</h2>
-      <form id="singleForm" class="space-y-4">
-        <input type="text" id="title" placeholder="Tytuł singla" required class="w-full p-2 border rounded" />
-        <input type="text" id="artist" placeholder="Wykonawca" required class="w-full p-2 border rounded" />
-        <input type="url" id="cover" placeholder="URL do avatara singla (opcjonalnie)" class="w-full p-2 border rounded" />
-        <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Dodaj</button>
-      </form>
-    </div>
+<h1>🎵 Generator Komentarzy</h1>
 
-    <!-- Kontener na single -->
-    <div id="singlesContainer" class="space-y-8"></div>
-  </div>
+<label for="kategoria">Wybierz kategorię komentarzy:</label><br>
+<select id="kategoria">
+  <option value="powazne">🎧 Poważne</option>
+  <option value="zabawne">😂 Zabawne</option>
+  <option value="memiczne">📸 Memiczne</option>
+  <option value="hejterskie">😬 Hejterskie</option>
+</select><br>
 
-  <script>
-    const form = document.getElementById("singleForm");
-    const singlesContainer = document.getElementById("singlesContainer");
+<button onclick="generujKomentarze()">Generuj 5 komentarzy</button>
 
-    const fans = ["Ania", "Jake", "Marta", "Lukas", "Zoe", "Kamil", "Tina", "Oscar", "Miko", "Ella"];
-    const countries = ["PL", "UK", "ES", "DE", "FR", "IT", "SE", "US", "NO", "JP"];
+<ul id="listaKomentarzy"></ul>
 
-    const commentStyles = {
-      powazne: [
-        "Mam ochotę na jeszcze więcej takich kawałków.",
-        "Melodia wpada w ucho i zostaje na długo.",
-        "To jest właśnie to, czego muzyka potrzebuje.",
-         "Mam ochotę na jeszcze więcej takich kawałków.",
-  "Ten artysta ma poczucie humoru większe niż ja po trzech kawach!",
-  "Piosenka z dużą dawką pozytywnego szaleństwa.",
-  "Melodia wpada w ucho i zostaje na długo.",
-  "To jest właśnie to, czego muzyka potrzebuje.",
-  "Świetne teksty i perfekcyjne wykonanie.",
-  "Bardzo oryginalne podejście do tematu.",
-  "Uwielbiam ten klimat i brzmienie.",
-  "Idealna do jazdy samochodem z otwartymi oknami.",
-  "Czuć tu prawdziwą pasję i zaangażowanie.",
-  "Ta piosenka daje mi pozytywne wibracje.",
-  "Słuchając tego, zapominam o całym świecie.",
-  "Duży potencjał, oby więcej takich numerów.",
-  "Produkcja na najwyższym poziomie.",
-  "Wokal robi niesamowite wrażenie.",
-  "Tekst bardzo poruszający i prawdziwy.",
-  "Ta piosenka jest jak opowieść z życia.",
-  "Jestem pod wrażeniem profesjonalizmu.",
-  "Z chęcią zobaczę ten utwór na żywo.",
-  "Czekam na kolejny singiel od tego artysty.",
-  "Kawałek, który będzie długo grał w mojej głowie.",
-  "Wysoki poziom artystyczny i emocjonalny.",
-  "Ten utwór otworzył mi oczy na nowy gatunek.",
-  "Prawdziwa uczta dla miłośników dobrej muzyki.",
-  "Muzyka, która potrafi poruszyć serce.",
-  "To jest klasyka, która przetrwa pokolenia.",
-  "Tekst pełen głębokich przemyśleń.",
-  "Aranżacja jest perfekcyjnie dopracowana.",
-  "Świetna dynamika i balans między instrumentami.",
-  "Wokalista ma niesamowity zakres głosu.",
-  "Utwór, który pokazuje dojrzałość artysty.",
-  "Muzyka, która inspiruje do refleksji.",
-  "Ten singiel to prawdziwe dzieło sztuki.",
-  "Brzmienie idealnie współgra z tekstem.",
-  "Świetnie skomponowana melodia i harmonia.",
-  "Wysokiej jakości produkcja studyjna.",
-  "Każdy dźwięk jest na swoim miejscu.",
-  "Ten kawałek zasługuje na międzynarodowe uznanie.",
-  "To jest muzyka, która zostaje w pamięci.",
-  "Prawdziwa perełka na rynku muzycznym.",
-  "Artyzm i talent w każdym takcie.",
-  "Ta piosenka to mistrzostwo warsztatu.",
-  "Przekaz jest klarowny i głęboki.",
-  "Muzyka, która łączy ludzi.",
-  "Wspaniałe wykorzystanie tradycyjnych instrumentów.",
-  "Nowoczesne brzmienie z duszą.",
-  "Ten singiel jest jak podróż emocjonalna.",
-  "Czuć w nim autentyczność i szczerość.",
-  "Prawdziwy hit, który przetrwa próbę czasu."
-        "Świetne teksty i perfekcyjne wykonanie.",
-        "Bardzo oryginalne podejście do tematu.",
-        "Uwielbiam ten klimat i brzmienie.",
-        "Idealna do jazdy samochodem z otwartymi oknami.",
-        "Czuć tu prawdziwą pasję i zaangażowanie.",
-        "Słuchając tego, zapominam o całym świecie.",
-        "Produkcja na najwyższym poziomie."
-      ],
-      zabawne: [
-        "Ten kawałek rozwesela mnie bardziej niż kawa.",
-        "Muzyka, której nawet mój pies nie mógł zignorować.",
-        "Ta piosenka to idealny soundtrack do tańca w kuchni.",
-         "Ten kawałek rozwesela mnie bardziej niż kawa.",
-  "Muzyka, której nawet mój pies nie mógł zignorować.",
-  "Ta piosenka to idealny soundtrack do tańca w kuchni.",
-  "Brzmienie jakby DJ mieszał dźwięki z mikrofalówki.",
-  "Zaczynam myśleć, że autor słucha tylko kotów.",
-  "Najlepszy numer do robienia dziwnych min przed lustrem.",
-  "Gdyby śpiewać pod prysznicem, to właśnie tak.",
-  "Ten beat jest bardziej wciągający niż internet o północy.",
-  "Zabawne jest to, że nie mogę przestać tego nucić.",
-  "Idealne tło do oglądania memów o kotach.",
-  "Piosenka na miarę memów z internetu.",
-  "Śmieszne dźwięki i tekst, który rozbawi każdego.",
-  "Dzięki temu utworowi śmieję się do łez.",
-  "Muzyka, która nadaje się na imprezę w piżamie.",
-  "Z tym kawałkiem każdy dzień jest lepszy.",
-  "Jeśli się nie uśmiechasz, to masz zły dzień.",
-  "Jestem fanem tej dziwacznej energii.",
-  "Numer, który sprawia, że chce się tańczyć nawet bez rytmu.",
-  "Zabawne słowa, które zostają w głowie na długo.",
-  "Ten kawałek to internetowa legenda w powijakach.",
-  "Melodia, która brzmi jak opowieść z kreskówki.",
-  "Ta piosenka powinna mieć własną kreskówkę.",
-  "To jest muzyka dla wszystkich, którzy kochają śmiech.",
-  "Ktoś tu zna się na żartach i muzyce jednocześnie.",
-  "Ten beat sprawia, że chcę robić śmieszne tańce.",
-  "Śmieszna piosenka na poprawę humoru.",
-  "Dźwięki, które sprawiają, że życie jest zabawniejsze.",
-  "Ta piosenka to jak mem w formie dźwięku.",
-  "Muzyka, która rozśmiesza i poprawia nastrój.",
-  "Ta piosenka to idealny sposób na nudę.",
-  "Zabawny kawałek na każdą okazję.",
-  "Muzyka, która sprawia, że chcę się śmiać.",
-  "Kawałek, który jest jak dobry dowcip.",
-  "Ta piosenka to humor muzyczny na najwyższym poziomie.",
-  "Melodia, która wywołuje uśmiech na twarzy.",
-  "Dźwięki, które rozbawią nawet największego ponuraka.",
-  "Ta piosenka to zabawny przyjaciel na gorsze dni.",
-  "Śmieszne rytmy, które poprawiają humor.",
-  "Ktoś tu ma talent do zabawnych kawałków.",
-  "Ta piosenka to muzyczny żart, który działa.",
-  "Melodia, która sprawia, że chce się tańczyć i śmiać.",
-  "Śmiech i muzyka w jednym kawałku.",
-  "Ta piosenka jest jak komedia muzyczna.",
-  "Dźwięki, które rozbawią każdego słuchacza.",
-  "Zabawna melodia na każdą imprezę.",
-  "Ta piosenka to dawka dobrego humoru.",
-  "Ktoś tu zrobił świetną robotę z humorem.",
-  "Muzyka, która sprawia, że chce się śmiać i tańczyć.",
-  "Ten kawałek to prawdziwa rozrywka dla uszu."
-        "Brzmienie jakby DJ mieszał dźwięki z mikrofalówki.",
-        "Zabawne jest to, że nie mogę przestać tego nucić.",
-        "Piosenka na miarę memów z internetu.",
-        "Dzięki temu utworowi śmieję się do łez.",
-        "Muzyka, która nadaje się na imprezę w piżamie.",
-        "Z tym kawałkiem każdy dzień jest lepszy.",
-        "Numer, który sprawia, że chce się tańczyć nawet bez rytmu."
-      ],
-      memiczne: [
-        "Brzmi jak remix z TikToka po trzech dniach non-stop oglądania.",
-        "Piosenka godna mema miesiąca.",
-        "Melodia to już klasyka memów na YouTube.",
-        "Nie wiem, czy to muzyka, ale memy już są.",
-          "Ten beat jest bardziej wciągający niż internet o północy.",
-  "Brzmi jak remix z TikToka po trzech dniach non-stop oglądania.",
-  "Piosenka godna mema miesiąca.",
-  "Gdyby ten kawałek miał memowy tag, byłby #EpicFail.",
-  "Ta melodia to już klasyka memów na YouTube.",
-  "Pod tym utworem powinny być same reakcje z emoji 😂🤣.",
-  "Nie wiem, czy to muzyka, ale memy już są.",
-  "Muzyka, która brzmi jak glitch z gry komputerowej.",
-  "Ten kawałek ma więcej warstw niż tort na urodziny.",
-  "Brzmi jak remix, który zrobił mój młodszy brat.",
-  "Słysząc to, myślę tylko o viralowych memach.",
-  "Ten kawałek to prawdziwy hit internetu.",
-  "Nie mogę przestać śmiać się przy tym kawałku.",
-  "Muzyka, która zasługuje na własne memowe konto.",
-  "Ktoś tu na pewno inspirował się internetową kulturą.",
-  "To brzmi jak soundtrack do najzabawniejszego filmu.",
-  "Gdyby memy miały dźwięk, to byłby właśnie ten.",
-  "Ten kawałek to muzyczny trolling najwyższej klasy.",
-  "Brzmi jak viralowy hit roku 2025.",
-  "Nie wiem, czy to muzyka, czy po prostu żart, ale jest świetne.",
-  "Kawałek, który zasługuje na memowy przeróbkę.",
-  "Włączam to i od razu chce się tańczyć jak kot z internetu.",
-  "To jest jak soundtrack do memów na TikToku.",
-  "Gdyby memy były muzyką, to byłby ich król.",
-  "Brzmienie jak z gry retro, ale bardziej memiczne.",
-  "Ten kawałek to memowa podróż bez końca.",
-  "Z tą melodią każdy dzień jest memiczny.",
-  "Ta piosenka powinna mieć własny hashtag na Twitterze.",
-  "Nie mogę przestać się śmiać, słuchając tego utworu.",
-  "Brzmi jak remix starych memów z YouTube’a.",
-  "To jest mem w formie dźwięku.",
-  "Ktoś tu połączył memy i muzykę w jedno.",
-  "Ten kawałek to meme lord muzyki.",
-  "Podczas słuchania mam flashbacki do viralowych klipów.",
-  "Gdyby memy miały soundtrack, to byłby ten.",
-  "To jest muzyka z innego internetowego wymiaru.",
-  "Ten beat to prawdziwy internetowy hit.",
-  "To brzmi jak soundtrack do najlepszych viralów.",
-  "Kawałek, który powinien mieć własny TikTok challenge.",
-  "Piosenka idealna do robienia śmiesznych tańców.",
-  "To memowy soundtrack mojego życia.",
-  "Włączenie tego to jak wpadnięcie w memowy wir.",
-  "Brzmi jak remix najlepszych internetowych hitów.",
-  "Ten kawałek to muzyczna bomba memów.",
-  "To jest dźwięk memów i śmiechu.",
-  "Ten utwór powinien mieć własny GIF na Instagramie.",
-  "Ktoś tu stworzył muzykę z internetu.",
-  "Ten kawałek to internetowa legenda.",
-  "Muzyka, którą śpiewa każdy memowy bohater.",
-  "Brzmi jak mem, który stał się piosenką.",
-  "To jest mem w najlepszym muzycznym wydaniu."
-        "Muzyka, która brzmi jak glitch z gry komputerowej.",
-        "Ten kawałek ma więcej warstw niż tort na urodziny.",
-        "Słysząc to, myślę tylko o viralowych memach.",
-        "Nie mogę przestać śmiać się przy tym kawałku.",
-        "Muzyka, która zasługuje na własne memowe konto.",
-        "Ten kawałek to muzyczny trolling najwyższej klasy."
-      ],
-      hejterskie: [
-        "To brzmi jak kara dla uszu, nie polecam nikomu.",
-        "Brzmienie przypomina nagranie z telefonu z lat 90.",
-        "Muzyka bez żadnego pomysłu i sensu.",
-        "Nie rozumiem fenomenu tego singla.",
-          "Czy ktoś może wytłumaczyć, jak to mogło ujrzeć światło dzienne?",
-  "To brzmi jak kara dla uszu, nie polecam nikomu.",
-  "Brzmienie przypomina nagranie z telefonu z lat 90.",
-  "Kto pisał ten tekst? Serio?",
-  "Muzyka bez żadnego pomysłu i sensu.",
-  "Nie rozumiem fenomenu tego singla, to jakaś pomyłka.",
-  "To brzmi jakby ktoś próbował zabić muzykę.",
-  "Wokal jakby ktoś się męczył i nie miał pojęcia, co robi.",
-  "Ten kawałek jest antyreklamą dla branży muzycznej.",
-  "Słuchając tego, mam ochotę wyłączyć wszystko.",
-  "Brzmienie tanie i sztuczne, nie warte uwagi.",
-  "Ta piosenka to muzyczny dramat.",
-  "Nie polecam nikomu, chyba że lubicie tortury uszne.",
-  "Kawałek, który powinien zniknąć z każdej playlisty.",
-  "To nie jest muzyka, to hałas bez sensu.",
-  "Ta piosenka jest jak kara dla moich uszu i cierpliwości.",
-  "Wokal jest bez wyrazu i emocji, zupełnie martwy.",
-  "To jest przykład, jak nie robić muzyki.",
-  "Słuchając tego, chcę uciec od dźwięku.",
-  "Kawałek, który rujnuje cały dzień.",
-  "Brzmienie jak z kasety nagranej na magnetofon.",
-  "Kto to nagrał? Chyba amator bez talentu.",
-  "Ta piosenka to hałas, nie melodia.",
-  "Najgorszy singiel, jaki słyszałem w życiu.",
-  "To jest muzyczny żart, który nikogo nie śmieszy.",
-  "Produkcja przypomina nagranie z telefonu komórkowego.",
-  "Teksty są banalne i bez sensu.",
-  "Nie wierzę, że ktoś się na to zdecydował.",
-  "Brak jakiejkolwiek oryginalności i pomysłu.",
-  "Wokal brzmi jak ktoś śpiewający pod prysznicem.",
-  "To nie muzyka, to hałas uliczny w tle.",
-  "Nie ma tu nic, co chciałbym jeszcze kiedyś usłyszeć.",
-  "Brzmienie jak z taniego syntezatora z lat 80.",
-  "Piosenka nie nadaje się nawet do tła.",
-  "Słowa bez sensu i totalny brak emocji.",
-  "To jest muzyczny koszmar.",
-  "Wolę ciszę niż to, co tu usłyszałem.",
-  "Kto pozwolił na wydanie tego singla?",
-  "To dno i jeszcze niżej.",
-  "Ta piosenka jest jak kara dla słuchaczy.",
-  "Brzmienie nijakie i pozbawione życia.",
-  "Kawałek, który zniechęca do muzyki.",
-  "Wokal jest jakby ktoś się męczył bez efektu.",
-  "Niech ten singiel zniknie z internetu jak najszybciej.",
-  "Jest to totalna strata czasu.",
-  "Słuchając tego, mam ochotę wyłączyć głośniki.",
-  "To przykład, jak nie powinno się tworzyć muzyki.",
-  "Gdzie jest jakiś sens w tym kawałku? Nie widzę.",
-  "Ktoś tu chyba pomylił branże – nie nadaje się do muzyki.",
-  "Brzmienie jak z najgorszego karaoke w mieście."
-        "To brzmi jakby ktoś próbował zabić muzykę.",
-        "Wokal jakby ktoś się męczył i nie miał pojęcia, co robi.",
-        "Ten kawałek jest antyreklamą dla branży muzycznej.",
-        "Brzmienie tanie i sztuczne, nie warte uwagi.",
-        "Kawałek, który powinien zniknąć z każdej playlisty.",
-        "To nie jest muzyka, to hałas bez sensu."
-      ]
-    };
+<script>
+  const komentarze = {
+    powazne: [
+      "Melodia wpada w ucho i zostaje na długo.",
+      "To jest właśnie to, czego muzyka potrzebuje.",
+      "Świetne teksty i perfekcyjne wykonanie.",
+      "Bardzo oryginalne podejście do tematu.",
+      "Uwielbiam ten klimat i brzmienie.",
+      "Czuć tu prawdziwą pasję i zaangażowanie.",
+      "Produkcja na najwyższym poziomie.",
+      "Wokal robi niesamowite wrażenie.",
+      "Czekam na kolejny singiel od tego artysty.",
+      "Muzyka, która potrafi poruszyć serce.",
+      "Kompozycja przemyślana i dopracowana.",
+      "Zachwycające przejścia i dynamika utworu.",
+      "Wokal tak czysty, że można się wzruszyć.",
+      "Utwór o głębokim przekazie i emocjach.",
+      "Cudowny balans między elektroniką a klasyką.",
+      "Tekst z przesłaniem, które zostaje w głowie.",
+      "Jedna z lepszych produkcji tego roku.",
+      "Kawałek, który warto puścić każdemu.",
+      "Zdecydowanie muzyka z duszą.",
+      "Ten utwór ma potencjał na klasyk."
+    ],
+    zabawne: [
+      "Ten kawałek rozwesela mnie bardziej niż kawa.",
+      "Muzyka, której nawet mój pies nie mógł zignorować.",
+      "Brzmienie jakby DJ mieszał dźwięki z mikrofalówki.",
+      "Piosenka na miarę memów z internetu.",
+      "Śmieszne dźwięki i tekst, który rozbawi każdego.",
+      "Z tym kawałkiem każdy dzień jest lepszy.",
+      "Numer, który sprawia, że chce się tańczyć nawet bez rytmu.",
+      "Melodia, która wywołuje uśmiech na twarzy.",
+      "Kawałek, który jest jak dobry dowcip.",
+      "Śmiech i muzyka w jednym kawałku.",
+      "Brzmi jak ścieżka dźwiękowa do kreskówki.",
+      "Ten beat to istny kabaret muzyczny.",
+      "Mój kot zaczął tańczyć, kiedy to usłyszał.",
+      "Jakby ktoś miksował żarty z klubem techno.",
+      "Idealna nuta na poniedziałkowy poranek.",
+      "Dźwiękowo brzmi jak impreza na trampolinie.",
+      "Rytm tak dziwny, że aż genialny.",
+      "Wokal jak z kreskówki, ale działa.",
+      "Czuję się jak na cyrkowej imprezie.",
+      "Utwór jak żart, który trafia w punkt."
+    ],
+    memiczne: [
+      "Brzmi jak remix z TikToka po trzech dniach non-stop oglądania.",
+      "Piosenka godna mema miesiąca.",
+      "Melodia to już klasyka memów na YouTube.",
+      "Nie wiem, czy to muzyka, ale memy już są.",
+      "Słysząc to, myślę tylko o viralowych memach.",
+      "To jest mem w formie dźwięku.",
+      "Ten beat to prawdziwy internetowy hit.",
+      "Gdyby memy miały soundtrack, to byłby ten.",
+      "To brzmi jak soundtrack do najlepszych viralów.",
+      "Piosenka idealna do robienia śmiesznych tańców.",
+      "Wizualizuję do tego kota grającego na pianinie.",
+      "Memiczny poziom: 1000.",
+      "Ten numer mógłby być podkładem pod fail compilation.",
+      "Słucham i widzę szopkę z Instagrama.",
+      "To mógłby być hymn Discorda.",
+      "Idealny podkład do śmiesznego story.",
+      "Wyobrażam sobie, jak ta piosenka leci w Minecraft disco.",
+      "Brakuje tylko napisu 'CRINGE ALERT'.",
+      "TikTok już to przejął na 100%.",
+      "Najbardziej memiczny utwór ever."
+    ],
+    hejterskie: [
+      "To brzmi jak kara dla uszu, nie polecam nikomu.",
+      "Muzyka bez żadnego pomysłu i sensu.",
+      "Nie rozumiem fenomenu tego singla.",
+      "To brzmi jakby ktoś próbował zabić muzykę.",
+      "Wokal jakby ktoś się męczył i nie miał pojęcia, co robi.",
+      "Brzmienie tanie i sztuczne, nie warte uwagi.",
+      "Ta piosenka to muzyczny dramat.",
+      "Nie polecam nikomu, chyba że lubicie tortury uszne.",
+      "To nie jest muzyka, to hałas bez sensu.",
+      "Najgorszy singiel, jaki słyszałem w życiu.",
+      "Ten utwór powinien zostać zakazany.",
+      "Wstyd mi, że to istnieje.",
+      "Słuchanie tego boli bardziej niż złamane serce.",
+      "Chciałem tego słuchać, ale mój mózg odmówił.",
+      "Po tym muszę odpocząć psychicznie.",
+      "Mój kot uciekł z pokoju, jak to włączyłem.",
+      "Zawiodłem się totalnie.",
+      "Czy to w ogóle ktoś przesłuchał przed publikacją?",
+      "To brzmi jakby ktoś przypadkiem włączył blender.",
+      "Beznadziejny beat, słaby wokal, zero stylu."
+    ]
+  };
 
-    function getRandomAvatar() {
-      return `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70) + 1}`;
-    }
+  function generujKomentarze() {
+    const kategoria = document.getElementById("kategoria").value;
+    const lista = komentarze[kategoria];
+    const wynik = document.getElementById("listaKomentarzy");
+    wynik.innerHTML = "";
 
-    function getRandomComment(style) {
-      const list = commentStyles[style];
-      return list[Math.floor(Math.random() * list.length)];
-    }
-
-    function getRandomStyle() {
-      const types = Object.keys(commentStyles);
-      return types[Math.floor(Math.random() * types.length)];
-    }
-
-    function addSingle(title, artist, coverUrl) {
-      const singleId = `single-${Date.now()}`;
-      const div = document.createElement("div");
-      div.className = "bg-white shadow-md rounded-xl p-4";
-      div.innerHTML = `
-        <div class="flex items-center space-x-4 mb-4">
-          ${coverUrl ? `<img src="${coverUrl}" alt="cover" class="w-20 h-20 object-cover rounded" />` : ""}
-          <div>
-            <h3 class="text-xl font-semibold">${title}</h3>
-            <p class="text-gray-600">by ${artist}</p>
-          </div>
-        </div>
-        <div id="${singleId}" class="space-y-4"></div>
-      `;
-      singlesContainer.prepend(div);
-
-      for (let i = 0; i < 10; i++) {
-        setTimeout(() => {
-          const fan = fans[Math.floor(Math.random() * fans.length)];
-          const country = countries[Math.floor(Math.random() * countries.length)];
-          const style = getRandomStyle();
-          const comment = getRandomComment(style);
-          const avatar = getRandomAvatar();
-
-          const commentEl = document.createElement("div");
-          commentEl.className = "flex items-start space-x-4";
-          commentEl.innerHTML = `
-            <img src="${avatar}" alt="${fan}" class="w-12 h-12 rounded-full" />
-            <div>
-              <p class="font-semibold">${fan} <span class="text-sm text-gray-400">(${country})</span></p>
-              <p class="text-gray-700">${comment}</p>
-            </div>
-          `;
-          document.getElementById(singleId).appendChild(commentEl);
-        }, i * 400);
+    const wybrane = [];
+    while (wybrane.length < 5) {
+      const los = lista[Math.floor(Math.random() * lista.length)];
+      if (!wybrane.includes(los)) {
+        wybrane.push(los);
       }
     }
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const title = document.getElementById("title").value.trim();
-      const artist = document.getElementById("artist").value.trim();
-      const coverUrl = document.getElementById("cover").value.trim();
-      if (title && artist) {
-        addSingle(title, artist, coverUrl);
-        form.reset();
-      }
+    wybrane.forEach(k => {
+      const li = document.createElement("li");
+      li.textContent = k;
+      wynik.appendChild(li);
     });
-  </script>
+  }
+</script>
+
 </body>
 </html>
