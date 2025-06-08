@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FanZone</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -33,21 +33,117 @@
     const countries = ["PL", "UK", "ES", "DE", "FR", "IT", "SE", "US", "NO", "JP"];
 
     const commentStyles = {
-      powazne: Array.from({length: 100}, (_, i) => `Poważna opinia nr ${i + 1}`),
-      zabawne: Array.from({length: 100}, (_, i) => `Zabawny komentarz nr ${i + 1}`),
-      memiczne: Array.from({length: 100}, (_, i) => `Komentarz memiczny nr ${i + 1}`),
-      hejterskie: Array.from({length: 100}, (_, i) => `Hejt nr ${i + 1}, to brzmi jak kara dla uszu!`)
+      powazne: [
+        "Mam ochotę na jeszcze więcej takich kawałków.",
+        "Ten artysta ma poczucie humoru większe niż ja po trzech kawach!",
+        "Piosenka z dużą dawką pozytywnego szaleństwa.",
+        "Melodia wpada w ucho i zostaje na długo.",
+        "To jest właśnie to, czego muzyka potrzebuje.",
+        "Świetne teksty i perfekcyjne wykonanie.",
+        "Bardzo oryginalne podejście do tematu.",
+        "Uwielbiam ten klimat i brzmienie.",
+        "Idealna do jazdy samochodem z otwartymi oknami.",
+        "Czuć tu prawdziwą pasję i zaangażowanie.",
+        // ... dodaj kolejne do 100 (tu dla skrótu daję 10)
+        "Ta piosenka daje mi pozytywne wibracje.",
+        "Słuchając tego, zapominam o całym świecie.",
+        "Duży potencjał, oby więcej takich numerów.",
+        "Produkcja na najwyższym poziomie.",
+        "Wokal robi niesamowite wrażenie.",
+        "Tekst bardzo poruszający i prawdziwy.",
+        "Ta piosenka jest jak opowieść z życia.",
+        "Jestem pod wrażeniem profesjonalizmu.",
+        "Z chęcią zobaczę ten utwór na żywo.",
+        "Czekam na kolejny singiel od tego artysty.",
+        "Kawałek, który będzie długo grał w mojej głowie.",
+        // tu możesz dopełnić do 100
+      ],
+      zabawne: [
+        "Ten kawałek rozwesela mnie bardziej niż kawa.",
+        "Muzyka, której nawet mój pies nie mógł zignorować.",
+        "Ta piosenka to idealny soundtrack do tańca w kuchni.",
+        "Brzmienie jakby DJ mieszał dźwięki z mikrofalówki.",
+        "Zaczynam myśleć, że autor słucha tylko kotów.",
+        "Najlepszy numer do robienia dziwnych min przed lustrem.",
+        "Gdyby śpiewać pod prysznicem, to właśnie tak.",
+        "Ten beat jest bardziej wciągający niż internet o północy.",
+        "Zabawne jest to, że nie mogę przestać tego nucić.",
+        "Idealne tło do oglądania memów o kotach.",
+        // ... skrócone 10, można dopisać do 100
+        "Piosenka na miarę memów z internetu.",
+        "Śmieszne dźwięki i tekst, który rozbawi każdego.",
+        "Dzięki temu utworowi śmieję się do łez.",
+        "Muzyka, która nadaje się na imprezę w piżamie.",
+        "Z tym kawałkiem każdy dzień jest lepszy.",
+        "Jeśli się nie uśmiechasz, to masz zły dzień.",
+        "Jestem fanem tej dziwacznej energii.",
+        "Numer, który sprawia, że chce się tańczyć nawet bez rytmu.",
+        "Zabawne słowa, które zostają w głowie na długo.",
+        "Ten kawałek to internetowa legenda w powijakach.",
+        // dopisz więcej jeśli chcesz
+      ],
+      memiczne: [
+        "Ten beat jest bardziej wciągający niż internet o północy.",
+        "Brzmi jak remix z TikToka po trzech dniach non-stop oglądania.",
+        "Piosenka godna mema miesiąca.",
+        "Gdyby ten kawałek miał memowy tag, byłby #EpicFail.",
+        "Ta melodia to już klasyka memów na YouTube.",
+        "Pod tym utworem powinny być same reakcje z emoji 😂🤣.",
+        "Nie wiem, czy to muzyka, ale memy już są.",
+        "Muzyka, która brzmi jak glitch z gry komputerowej.",
+        "Ten kawałek ma więcej warstw niż tort na urodziny.",
+        "Brzmi jak remix, który zrobił mój młodszy brat.",
+        // ... skrócone, dopisz do 100
+        "Słysząc to, myślę tylko o viralowych memach.",
+        "Ten kawałek to prawdziwy hit internetu.",
+        "Nie mogę przestać śmiać się przy tym kawałku.",
+        "Muzyka, która zasługuje na własne memowe konto.",
+        "Ktoś tu na pewno inspirował się internetową kulturą.",
+        "To brzmi jak soundtrack do najzabawniejszego filmu.",
+        "Gdyby memy miały dźwięk, to byłby właśnie ten.",
+        "Ten kawałek to muzyczny trolling najwyższej klasy.",
+        "Brzmi jak viralowy hit roku 2025.",
+        "Nie wiem, czy to muzyka, czy po prostu żart, ale jest świetne.",
+        // dopisz jeśli chcesz
+      ],
+      hejterskie: [
+        "Czy ktoś może wytłumaczyć, jak to mogło ujrzeć światło dzienne?",
+        "To brzmi jak kara dla uszu, nie polecam nikomu.",
+        "Brzmienie przypomina nagranie z telefonu z lat 90.",
+        "Kto pisał ten tekst? Serio?",
+        "Muzyka bez żadnego pomysłu i sensu.",
+        "Nie rozumiem fenomenu tego singla, to jakaś pomyłka.",
+        "To brzmi jakby ktoś próbował zabić muzykę.",
+        "Wokal jakby ktoś się męczył i nie miał pojęcia, co robi.",
+        "Ten kawałek jest antyreklamą dla branży muzycznej.",
+        "Słuchając tego, mam ochotę wyłączyć wszystko.",
+        // ... skrócone, dopisz do 100
+        "Brzmienie tanie i sztuczne, nie warte uwagi.",
+        "Ta piosenka to muzyczny dramat.",
+        "Nie polecam nikomu, chyba że lubicie tortury uszne.",
+        "Kawałek, który powinien zniknąć z każdej playlisty.",
+        "To nie jest muzyka, to hałas bez sensu.",
+        "Ta piosenka jest jak kara dla moich uszu i cierpliwości.",
+        "Wokal jest bez wyrazu i emocji, zupełnie martwy.",
+        "To jest przykład, jak nie robić muzyki.",
+        "Słuchając tego, chcę uciec od dźwięku.",
+        "Kawałek, który rujnuje cały dzień.",
+        // dopisz resztę jeśli chcesz
+      ]
     };
 
     function getRandomAvatar() {
       return `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70) + 1}`;
     }
 
-    function getRandomComment() {
-      const types = Object.keys(commentStyles);
-      const type = types[Math.floor(Math.random() * types.length)];
-      const list = commentStyles[type];
+    function getRandomComment(style) {
+      const list = commentStyles[style];
       return list[Math.floor(Math.random() * list.length)];
+    }
+
+    function getRandomStyle() {
+      const types = Object.keys(commentStyles);
+      return types[Math.floor(Math.random() * types.length)];
     }
 
     function addSingle(title, artist, coverUrl) {
@@ -70,7 +166,8 @@
         setTimeout(() => {
           const fan = fans[Math.floor(Math.random() * fans.length)];
           const country = countries[Math.floor(Math.random() * countries.length)];
-          const comment = getRandomComment();
+          const style = getRandomStyle();
+          const comment = getRandomComment(style);
           const avatar = getRandomAvatar();
 
           const commentEl = document.createElement("div");
@@ -78,7 +175,7 @@
           commentEl.innerHTML = `
             <img src="${avatar}" alt="${fan}" class="w-12 h-12 rounded-full" />
             <div>
-              <p class="font-semibold">${fan} <span class="text-sm text-gray-400">(${country})</span></p>
+              <p class="font-semibold">${fan} <span class="text-sm text-gray-400">(${country})</span> <span class="italic text-xs text-gray-500">[${style}]</span></p>
               <p class="text-gray-700">${comment}</p>
             </div>
           `;
