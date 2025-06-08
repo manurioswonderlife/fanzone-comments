@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FanZone</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-3xl mx-auto p-6">
+    <h1 class="text-3xl font-bold text-center mb-8 text-purple-700">FanZone</h1>
+
+    <!-- Formularz dodawania singla -->
+    <div class="bg-white shadow-md rounded-xl p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-2">Dodaj nowy singiel</h2>
+      <form id="singleForm" class="space-y-4">
+        <input type="text" id="title" placeholder="Tytuł singla" required class="w-full p-2 border rounded" />
+        <input type="text" id="artist" placeholder="Wykonawca" required class="w-full p-2 border rounded" />
+        <input type="url" id="cover" placeholder="URL do avatara singla (opcjonalnie)" class="w-full p-2 border rounded" />
+        <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Dodaj</button>
+      </form>
+    </div>
+
+    <!-- Kontener na single -->
+    <div id="singlesContainer" class="space-y-8"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("singleForm");
+    const singlesContainer = document.getElementById("singlesContainer");
+
+    const fans = ["Ania", "Jake", "Marta", "Lukas", "Zoe", "Kamil", "Tina", "Oscar", "Miko", "Ella"];
+    const countries = ["PL", "UK", "ES", "DE", "FR", "IT", "SE", "US", "NO", "JP"];
+
+    const commentStyles = {
+      powazne: Array.from({length: 100}, (_, i) => `Poważna opinia nr ${i + 1}`),
+      zabawne: Array.from({length: 100}, (_, i) => `Zabawny komentarz nr ${i + 1}`),
+      memiczne: Array.from({length: 100}, (_, i) => `Komentarz memiczny nr ${i + 1}`),
+      hejterskie: Array.from({length: 100}, (_, i) => `Hejt nr ${i + 1}, to brzmi jak kara dla uszu!`)
+    };
+
+    function getRandomAvatar() {
+      return `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70) + 1}`;
+    }
+
+    function getRandomComment() {
+      const types = Object.keys(commentStyles);
+      const type = types[Math.floor(Math.random() * types.length)];
+      const list = commentStyles[type];
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    function addSingle(title, artist, coverUrl) {
+      const singleId = `single-${Date.now()}`;
+      const div = document.createElement("div");
+      div.className = "bg-white shadow-md rounded-xl p-4";
+      div.innerHTML = `
+        <div class="flex items-center space-x-4 mb-4">
+          ${coverUrl ? `<img src="${coverUrl}" alt="cover" class="w-20 h-20 object-cover rounded" />` : ""}
+          <div>
+            <h3 class="text-xl font-semibold">${title}</h3>
+            <p class="text-gray-600">by ${artist}</p>
+          </div>
+        </div>
+        <div id="${singleId}" class="space-y-4"></div>
+      `;
+      singlesContainer.prepend(div);
+
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          const fan = fans[Math.floor(Math.random() * fans.length)];
+          const country = countries[Math.floor(Math.random() * countries.length)];
+          const comment = getRandomComment();
+          const avatar = getRandomAvatar();
+
+          const commentEl = document.createElement("div");
+          commentEl.className = "flex items-start space-x-4";
+          commentEl.innerHTML = `
+            <img src="${avatar}" alt="${fan}" class="w-12 h-12 rounded-full" />
+            <div>
+              <p class="font-semibold">${fan} <span class="text-sm text-gray-400">(${country})</span></p>
+              <p class="text-gray-700">${comment}</p>
+            </div>
+          `;
+          document.getElementById(singleId).appendChild(commentEl);
+        }, i * 400);
+      }
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const title = document.getElementById("title").value.trim();
+      const artist = document.getElementById("artist").value.trim();
+      const coverUrl = document.getElementById("cover").value.trim();
+      if (title && artist) {
+        addSingle(title, artist, coverUrl);
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
